@@ -24,16 +24,6 @@ export default function Questions() {
             item.correct_answer
           );
 
-          // setAnswerssss(() => {
-          //   return allAnswers.map((item) => {
-          //     return {
-          //       id: nanoid(),
-          //       isHeld: false,
-          //       answer: item,
-          //     };
-          //   });
-          // });
-
           const allAnswers_ID = allAnswers.map((item) => {
             return {
               id: nanoid(),
