@@ -73,7 +73,7 @@ export default function Questions() {
     });
   }
 
-  console.log(info);
+  // console.log(info);
 
   // function chooseAnswer(id, selectedQuestion) {
   //   setInfo((prevInfo) => {
