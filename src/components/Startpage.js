@@ -10,8 +10,6 @@ export default function Startpage(props) {
           Start quiz
         </button>
       </div>
-      <img src="/images/blob-top.png" className="startpage--image-top"></img>
-      <img src="/images/blob-bot.png" className="startpage--image-bottom"></img>
     </div>
   );
 }

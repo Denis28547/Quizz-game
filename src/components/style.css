@@ -8,6 +8,12 @@
 body {
   background-color: #f5f7fb;
   color: #293264;
+  background-image: url("/public/images/blob-bot.png"),
+    url("/public/images/blob-top.png");
+  background-repeat: no-repeat;
+  background-attachment: local;
+  background-position: left bottom, top right;
+  background-size: 20%;
 }
 
 .startpage--items {
@@ -38,16 +44,28 @@ body {
   color: #f5f7fb;
 }
 
-.startpage--image-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 20%;
+.questions {
+  padding: 200px;
 }
 
-.startpage--image-top {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 20%;
+.question--container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 12px;
+  /* margin: 80px 175px; */
+}
+
+.question--title {
+  font-size: 16px;
+  grid-column: span 4;
+}
+
+.question--buttons {
+  padding: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  border-color: #4d5b9e;
+  background-color: transparent;
 }
