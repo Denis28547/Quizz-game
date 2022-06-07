@@ -4,13 +4,14 @@ import QuestionMaker from "./QuestionMaker";
 
 export default function Questions() {
   const [info, setInfo] = React.useState([]);
+  const [gameOver, setGameOver] = React.useState(false);
 
   React.useEffect(() => {
     getQuizData();
   }, []);
 
   const getQuizData = async () => {
-    const URL = "https://opentdb.com/api.php?amount=10&type=multiple";
+    const URL = "https://opentdb.com/api.php?amount=5&type=multiple";
 
     fetch(URL)
       .then((res) => res.json())
@@ -45,50 +46,69 @@ export default function Questions() {
   };
 
   function chooseAnswer(selectedId, selectedQuestionId) {
-    setInfo((prevInfo) => {
-      prevInfo.map((item) => {
-        if (item.id === selectedQuestionId) {
-          return {
-            ...item,
-            answers: item.answers.map((answer) => {
-              return answer.id === selectedId
-                ? { ...answer, isHeld: !answer.isHeld }
-                : { ...answer, isHeld: false };
-            }),
-          };
-        } else {
-          return item;
-        }
-      });
+    const newInfo = info.map((item) => {
+      if (item.id === selectedQuestionId) {
+        return {
+          ...item,
+          answers: item.answers.map((answer) => {
+            return answer.id === selectedId
+              ? { ...answer, isHeld: !answer.isHeld }
+              : { ...answer, isHeld: false };
+          }),
+          scored:
+            item.correct_answer ===
+            item.answers.find((answer) => answer.id === selectedId).answer
+              ? true
+              : false,
+        };
+      } else {
+        return item;
+      }
     });
+    setInfo(newInfo);
   }
 
-  // console.log(info);
+  function checkAns() {
+    setGameOver(true);
+  }
 
-  // function chooseAnswer(id, selectedQuestion) {
-  //   setInfo((prevInfo) => {
-  //     prevInfo.map((item) => {
-  //       return item.question !== selectedQuestion
-  //         ? item
-  //         : {
-  //             ...item,
-  //             answers: item.answers.map((answer) => {
-  //               return answer.id !== id
-  //                 ? answer
-  //                 : {
-  //                     ...answer,
-  //                     isHeld: true,
-  //                   };
-  //             }),
-  //           };
-  //     });
-  //   });
-  // }
+  function restartQuiz() {
+    window.location.reload();
+  }
+
+  function countCorrectAnswers() {
+    let scoredCount = 0;
+    info.forEach((question) => {
+      question.scored && scoredCount++;
+    });
+    return scoredCount;
+  }
 
   if (info) {
     const questions = info.map((item) => {
-      return <QuestionMaker {...item} handleClick={chooseAnswer} />;
+      return (
+        <QuestionMaker
+          {...item}
+          handleClick={chooseAnswer}
+          gameOver={gameOver}
+        />
+      );
     });
-    return <div className="questions">{questions}</div>;
+    return (
+      <div className="questions">
+        {questions}
+        {gameOver && (
+          <p className="questions--check_correct_answers">
+            You scored {countCorrectAnswers()} / {info.length} correct answers
+          </p>
+        )}
+        <button
+          className="questions--check_answers"
+          onClick={gameOver ? restartQuiz : checkAns}
+        >
+          {gameOver ? "Play again" : "Check answers"}
+        </button>
+      </div>
+    );
   }
 }

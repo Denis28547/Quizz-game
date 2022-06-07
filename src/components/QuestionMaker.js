@@ -2,39 +2,49 @@ import React from "react";
 import { nanoid } from "nanoid";
 
 export default function QuestionMaker(props) {
-  function yoba(isHeld) {
-    const styles = {
-      backgroundColor: isHeld ? "#D6DBF5" : "transparent",
-    };
-    return styles;
+  function styleChooser(item) {
+    if (props.gameOver && item.answer === props.correct_answer) {
+      const styles = {
+        backgroundColor: "#94D7A2",
+      };
+      return styles;
+    }
+
+    if (props.gameOver && !props.scored && item.isHeld) {
+      const styles = {
+        backgroundColor: "#dc868762",
+      };
+      return styles;
+    }
+
+    if (item.isHeld) {
+      const styles = {
+        backgroundColor: "#D6DBF5",
+      };
+      return styles;
+    }
   }
 
-  // console.log(props.id);
-
   const buttons = props.answers.map((item) => (
-    // <label key={nanoid()}>
-    //   {item.answer}
-    //   <input
-    //     type="radio"
-    //     // key={nanoid()}
-    //     id={item.answer}
-    //     className="question--buttons"
-    //   />
-    // </label>
     <button
       className="question--buttons"
-      style={yoba(item.isHeld)}
+      style={styleChooser(item)}
       key={nanoid()}
-      onClick={() => props.handleClick(item.id, props.id)}
+      onClick={() =>
+        !props.gameOver ? props.handleClick(item.id, props.id) : null
+      }
     >
       {item.answer}
     </button>
   ));
 
   return (
-    <div className="question--container">
-      <h1 className="question--title">{props.question}</h1>
-      {buttons}
+    <div>
+      <div className="question--container">
+        <h1 className="question--title">{props.question}</h1>
+        {buttons}
+        <hr className="questions--line" />
+      </div>
     </div>
   );
 }
