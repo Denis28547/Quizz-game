@@ -5,7 +5,7 @@ export default function Startpage(props) {
     <div className="startpage">
       <div className="startpage--items">
         <h1 className="startpage--title">Quizzical</h1>
-        <p className="startpage--text">Start funny(not) quizz game</p>
+        {/* <p className="startpage--text">Start quizz game</p> */}
         <button className="startpage--button" onClick={props.changePage}>
           Start quiz
         </button>
